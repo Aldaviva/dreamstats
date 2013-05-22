@@ -35,11 +35,7 @@ public class DurationSinceEatingVsSleepDuration extends BaseStatsCalculator<Dura
 			} else if("Sleep".equals(event.getName())){
 				if(mostRecentFoodEnd != null){
 					final Duration timeBetweenFoodEndingAndSleepStarting = new Duration(mostRecentFoodEnd, event.getStart());
-
-					final Duration independent = getIndependentBucket(timeBetweenFoodEndingAndSleepStarting);
-					final Duration dependent = getDependentBucket(event.getDuration());
-
-					incrementTableBucket(result, independent, dependent);
+					incrementTableBucket(result, timeBetweenFoodEndingAndSleepStarting, event.getDuration());
 				}
 			}
 		}

@@ -22,9 +22,7 @@ public class PreviousEventVsSleepDurationCalculator extends BaseStatsCalculator<
 		for (final CalendarEvent event : events) {
 			if("Sleep".equals(event.getName())){
 				if(previousEventName != null){
-					final String independent = getIndependentBucket(previousEventName);
-					final Duration dependent = getDependentBucket(event.getDuration());
-					incrementTableBucket(result, independent, dependent);
+					incrementTableBucket(result, previousEventName, event.getDuration());
 					previousEventName = null;
 				}
 

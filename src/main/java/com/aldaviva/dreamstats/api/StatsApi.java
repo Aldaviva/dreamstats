@@ -15,6 +15,7 @@ import org.joda.time.LocalTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.aldaviva.dreamstats.stats.DayOfWeekVsSleepDurationCalculator;
 import com.aldaviva.dreamstats.stats.DurationSinceEatingVsSleepDuration;
 import com.aldaviva.dreamstats.stats.PreviousEventVsSleepDurationCalculator;
 import com.aldaviva.dreamstats.stats.StartTimeVsSleepDurationCalculator;
@@ -27,6 +28,7 @@ public class StatsApi {
 	@Autowired private StartTimeVsSleepDurationCalculator startTimeVsSleepDurationCalculator;
 	@Autowired private DurationSinceEatingVsSleepDuration durationSinceEatingVsSleepDuration;
 	@Autowired private PreviousEventVsSleepDurationCalculator previousEventVsSleepDurationCalculator;
+	@Autowired private DayOfWeekVsSleepDurationCalculator dayOfWeekVsSleepDurationCalculator;
 
 	@GET
 	@Path("start-time-vs-sleep-duration")
@@ -45,4 +47,18 @@ public class StatsApi {
 	public Map<String, Map<Duration, Integer>> getPreviousEventVsSleepDuration() {
 		return previousEventVsSleepDurationCalculator.calculateStats();
 	}
+
+	/*
+	 * 1 = Monday
+	 * 2 = Tuesday
+	 * ...
+	 * 7 = Sunday
+	 */
+	@GET
+	@Path("day-of-week-vs-sleep-duration")
+	public Map<Integer, Map<Duration, Integer>> getDayOfWeekVsSleepDuration() {
+		return dayOfWeekVsSleepDurationCalculator.calculateStats();
+	}
+
+
 }

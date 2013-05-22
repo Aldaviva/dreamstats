@@ -25,19 +25,22 @@ public abstract class BaseStatsCalculator<IndependentType, DependentType> implem
 		return result.toStandardDuration();
 	}
 
-	protected void incrementTableBucket(final Map<IndependentType, Map<DependentType, Integer>> table, final IndependentType independent, final DependentType dependent) {
-		Map<DependentType, Integer> column = table.get(independent);
+	protected void incrementTableBucket(final Map<IndependentType, Map<DependentType, Integer>> table, final IndependentType independentExact, final DependentType dependentExact) {
+		final IndependentType independentBucket = getIndependentBucket(independentExact);
+		final DependentType dependentNBucket = getDependentBucket(dependentExact);
+
+		Map<DependentType, Integer> column = table.get(independentBucket);
 		if(column == null){
 			column = new HashMap<>();
-			table.put(independent, column);
+			table.put(independentBucket, column);
 		}
 
-		Integer bucket = column.get(dependent);
+		Integer bucket = column.get(dependentNBucket);
 		if(bucket == null){
 			bucket = 0;
 		}
 
-		column.put(dependent, bucket + 1);
+		column.put(dependentNBucket, bucket + 1);
 	}
 
 }

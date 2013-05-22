@@ -39,10 +39,7 @@ public class StartTimeVsSleepDurationCalculator extends BaseStatsCalculator<Loca
 		final Map<LocalTime, Map<Duration, Integer>> result = new HashMap<>();
 
 		for (final CalendarEvent event : events) {
-			final LocalTime independent = getIndependentBucket(event.getStart().toLocalTime());
-			final Duration dependent = getDependentBucket(event.getDuration());
-
-			incrementTableBucket(result, independent, dependent);
+			incrementTableBucket(result, event.getStart().toLocalTime(), event.getDuration());
 		}
 
 		return result;

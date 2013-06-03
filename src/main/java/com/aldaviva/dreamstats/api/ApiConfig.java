@@ -1,4 +1,4 @@
-package com.aldaviva.dreamstats.api.marshal;
+package com.aldaviva.dreamstats.api;
 
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
@@ -10,6 +10,10 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.LocalTime;
 import org.springframework.stereotype.Component;
+
+import com.aldaviva.dreamstats.api.marshal.DateTimeSerializer;
+import com.aldaviva.dreamstats.api.marshal.DurationSerializer;
+import com.aldaviva.dreamstats.api.marshal.LocalTimeSerializer;
 
 
 @Provider

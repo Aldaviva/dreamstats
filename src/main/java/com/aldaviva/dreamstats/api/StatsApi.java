@@ -1,6 +1,5 @@
 package com.aldaviva.dreamstats.api;
 
-import java.io.IOException;
 import java.util.Map;
 
 import javax.ws.rs.GET;
@@ -8,13 +7,15 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.Duration;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.aldaviva.dreamstats.stats.DateVsAwakeDurationCalculator;
+import com.aldaviva.dreamstats.stats.DateVsSleepDurationCalculator;
 import com.aldaviva.dreamstats.stats.DayOfWeekVsSleepDurationCalculator;
 import com.aldaviva.dreamstats.stats.DurationSinceEatingVsSleepDuration;
 import com.aldaviva.dreamstats.stats.PreviousEventVsSleepDurationCalculator;
@@ -29,10 +30,12 @@ public class StatsApi {
 	@Autowired private DurationSinceEatingVsSleepDuration durationSinceEatingVsSleepDuration;
 	@Autowired private PreviousEventVsSleepDurationCalculator previousEventVsSleepDurationCalculator;
 	@Autowired private DayOfWeekVsSleepDurationCalculator dayOfWeekVsSleepDurationCalculator;
+	@Autowired private DateVsSleepDurationCalculator dateVsSleepDurationCalculator;
+	@Autowired private DateVsAwakeDurationCalculator dateVsAwakeDurationCalculator;
 
 	@GET
 	@Path("start-time-vs-sleep-duration")
-	public Map<LocalTime, Map<Duration, Integer>> getStartTimeVsSleepDuration() throws JsonGenerationException, JsonMappingException, IOException{
+	public Map<LocalTime, Map<Duration, Integer>> getStartTimeVsSleepDuration() {
 		return startTimeVsSleepDurationCalculator.calculateStats();
 	}
 
@@ -48,7 +51,8 @@ public class StatsApi {
 		return previousEventVsSleepDurationCalculator.calculateStats();
 	}
 
-	/*
+	/**
+	 * See {@link DateTimeConstants}
 	 * 1 = Monday
 	 * 2 = Tuesday
 	 * ...
@@ -60,5 +64,16 @@ public class StatsApi {
 		return dayOfWeekVsSleepDurationCalculator.calculateStats();
 	}
 
+	@GET
+	@Path("date-vs-sleep-duration")
+	public Map<LocalDate, Map<Duration, Integer>> getDateVsSleepDuration(){
+		return dateVsSleepDurationCalculator.calculateStats();
+	}
+
+	@GET
+	@Path("date-vs-awake-duration")
+	public Map<LocalDate, Map<Duration, Integer>> getDateVsAwakeDuration(){
+		return dateVsAwakeDurationCalculator.calculateStats();
+	}
 
 }

@@ -1,8 +1,5 @@
 package com.aldaviva.dreamstats.stats;
 
-import com.aldaviva.dreamstats.data.enums.EventName;
-import com.aldaviva.dreamstats.data.model.CalendarEvent;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +7,11 @@ import java.util.Map;
 import org.joda.time.Duration;
 import org.springframework.stereotype.Component;
 
+import com.aldaviva.dreamstats.data.dto.Axis;
+import com.aldaviva.dreamstats.data.dto.SleepDurationAxis;
+import com.aldaviva.dreamstats.data.dto.StringAxis;
+import com.aldaviva.dreamstats.data.enums.EventName;
+import com.aldaviva.dreamstats.data.model.CalendarEvent;
 import com.google.common.base.Predicates;
 
 @Component
@@ -33,7 +35,7 @@ public class PreviousEventVsSleepDurationCalculator extends BaseStatsCalculator<
 			}
 		}
 
-		return result ;
+		return result;
 	}
 
 	@Override
@@ -47,13 +49,13 @@ public class PreviousEventVsSleepDurationCalculator extends BaseStatsCalculator<
 	}
 
 	@Override
-	protected Duration getIndependentInterval() {
-		return null; //each string gets its own column, gaps don't matter
+	protected Axis<String> getIndependentAxis() {
+		return new StringAxis("previous-event"); //each string gets its own column, gaps don't matter
 	}
 
 	@Override
-	protected Duration getDependentInterval() {
-		return DEFAULT_DURATION_INTERVAL;
+	protected Axis<Duration> getDependentAxis() {
+		return new SleepDurationAxis();
 	}
 
 }

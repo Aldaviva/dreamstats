@@ -1,8 +1,5 @@
 package com.aldaviva.dreamstats.stats;
 
-import com.aldaviva.dreamstats.data.dto.StatsBundle;
-import com.aldaviva.dreamstats.remote.calendar.CalendarService;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,9 +7,13 @@ import org.joda.time.Duration;
 import org.joda.time.Period;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.aldaviva.dreamstats.data.dto.Axis;
+import com.aldaviva.dreamstats.data.dto.StatsBundle;
+import com.aldaviva.dreamstats.remote.calendar.CalendarService;
+
 public abstract class BaseStatsCalculator<IndependentType, DependentType> implements StatsCalculator<IndependentType, DependentType> {
 
-	protected static final Duration DEFAULT_DURATION_INTERVAL = Duration.standardMinutes(30);
+	public static final Duration DEFAULT_DURATION_INTERVAL = Duration.standardMinutes(60);
 
 	@Autowired protected CalendarService calendarService;
 
@@ -24,8 +25,9 @@ public abstract class BaseStatsCalculator<IndependentType, DependentType> implem
 	public StatsBundle<IndependentType, DependentType> getStatsBundle(){
 		final StatsBundle<IndependentType, DependentType> statsBundle = new StatsBundle<>();
 		statsBundle.setStats(calculateStats());
-		statsBundle.setIndependentInterval(getIndependentInterval());
-		statsBundle.setDependentInterval(getDependentInterval());
+		statsBundle.getAxes().independentAxis = getIndependentAxis();
+		statsBundle.getAxes().dependentAxis = getDependentAxis();
+		statsBundle.updateAxesFromStats();
 
 		return statsBundle;
 	}
@@ -35,11 +37,8 @@ public abstract class BaseStatsCalculator<IndependentType, DependentType> implem
 	protected abstract IndependentType getIndependentBucket(IndependentType exact);
 	protected abstract DependentType getDependentBucket(DependentType exact);
 
-	/**
-	 * @return how much duration should go into each x-axis bucket in a graph. null means "each value gets its own bucket", like Strings
-	 */
-	protected abstract Duration getIndependentInterval();
-	protected abstract Duration getDependentInterval();
+	protected abstract Axis<IndependentType> getIndependentAxis();
+	protected abstract Axis<DependentType> getDependentAxis();
 
 	/**
 	 * Put the given @param exact Duration into 30-minute buckets

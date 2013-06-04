@@ -1,10 +1,5 @@
 package com.aldaviva.dreamstats.api;
 
-import com.aldaviva.dreamstats.api.marshal.ClassNameSerializer;
-import com.aldaviva.dreamstats.api.marshal.DateTimeSerializer;
-import com.aldaviva.dreamstats.api.marshal.DurationSerializer;
-import com.aldaviva.dreamstats.api.marshal.LocalTimeSerializer;
-
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
 
@@ -13,10 +8,17 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.module.SimpleModule;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import com.aldaviva.dreamstats.api.marshal.ClassNameSerializer;
+import com.aldaviva.dreamstats.api.marshal.DateTimeSerializer;
+import com.aldaviva.dreamstats.api.marshal.DurationSerializer;
+import com.aldaviva.dreamstats.api.marshal.LocalDateSerializer;
+import com.aldaviva.dreamstats.api.marshal.LocalTimeSerializer;
 
 
 @Provider
@@ -47,10 +49,12 @@ public class ApiConfig implements ContextResolver<ObjectMapper> {
 		module.addSerializer(new DateTimeSerializer());
 		module.addSerializer(new LocalTimeSerializer(false));
 		module.addSerializer(new ClassNameSerializer());
+		module.addSerializer(new LocalDateSerializer(false));
 
 		module.addKeySerializer(Duration.class, new DurationSerializer(true));
 		module.addKeySerializer(DateTime.class, new DateTimeSerializer());
 		module.addKeySerializer(LocalTime.class, new LocalTimeSerializer(true));
+		module.addKeySerializer(LocalDate.class, new LocalDateSerializer(true));
 
 		om.registerModule(module);
 

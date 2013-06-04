@@ -1,5 +1,8 @@
 package com.aldaviva.dreamstats.stats;
 
+import com.aldaviva.dreamstats.data.enums.EventName;
+import com.aldaviva.dreamstats.data.model.CalendarEvent;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,19 +11,18 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.springframework.stereotype.Component;
 
-import com.aldaviva.dreamstats.data.model.CalendarEvent;
 import com.google.common.base.Predicate;
 
 @Component
 public class DurationSinceEatingVsSleepDuration extends BaseStatsCalculator<Duration, Duration> {
 
 	@Override
-	public Map<Duration, Map<Duration, Integer>> calculateStats() {
+	protected Map<Duration, Map<Duration, Integer>> calculateStats() {
 		final List<CalendarEvent> events = calendarService.findEvents(new Predicate<CalendarEvent>() {
 			@Override
 			public boolean apply(final CalendarEvent input) {
-				final String name = input.getName();
-				return "Sleep".equals(name) || "Food".equals(name);
+				final EventName name = input.getName();
+				return EventName.Sleep.equals(name) || EventName.Food.equals(name);
 			}
 		});
 
@@ -29,10 +31,10 @@ public class DurationSinceEatingVsSleepDuration extends BaseStatsCalculator<Dura
 		DateTime mostRecentFoodEnd = null;
 
 		for (final CalendarEvent event : events) {
-			if("Food".equals(event.getName())){
+			if(EventName.Food.equals(event.getName())){
 				mostRecentFoodEnd = event.getEnd();
 
-			} else if("Sleep".equals(event.getName())){
+			} else if(EventName.Sleep.equals(event.getName())){
 				if(mostRecentFoodEnd != null){
 					final Duration timeBetweenFoodEndingAndSleepStarting = new Duration(mostRecentFoodEnd, event.getStart());
 					incrementTableBucket(result, timeBetweenFoodEndingAndSleepStarting, event.getDuration());
@@ -44,13 +46,23 @@ public class DurationSinceEatingVsSleepDuration extends BaseStatsCalculator<Dura
 	}
 
 	@Override
-	public Duration getIndependentBucket(final Duration exact) {
+	protected Duration getIndependentBucket(final Duration exact) {
 		return bucketizeDuration(exact);
 	}
 
 	@Override
-	public Duration getDependentBucket(final Duration exact) {
+	protected Duration getDependentBucket(final Duration exact) {
 		return bucketizeDuration(exact);
+	}
+
+	@Override
+	protected Duration getIndependentInterval() {
+		return DEFAULT_DURATION_INTERVAL;
+	}
+
+	@Override
+	protected Duration getDependentInterval() {
+		return DEFAULT_DURATION_INTERVAL;
 	}
 
 }

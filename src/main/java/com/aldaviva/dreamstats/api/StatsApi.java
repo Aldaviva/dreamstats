@@ -1,6 +1,12 @@
 package com.aldaviva.dreamstats.api;
 
-import java.util.Map;
+import com.aldaviva.dreamstats.data.dto.StatsBundle;
+import com.aldaviva.dreamstats.stats.DateVsAwakeDurationCalculator;
+import com.aldaviva.dreamstats.stats.DateVsSleepDurationCalculator;
+import com.aldaviva.dreamstats.stats.DayOfWeekVsSleepDurationCalculator;
+import com.aldaviva.dreamstats.stats.DurationSinceEatingVsSleepDuration;
+import com.aldaviva.dreamstats.stats.PreviousEventVsSleepDurationCalculator;
+import com.aldaviva.dreamstats.stats.StartTimeVsSleepDurationCalculator;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -11,20 +17,17 @@ import org.joda.time.DateTimeConstants;
 import org.joda.time.Duration;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.aldaviva.dreamstats.stats.DateVsAwakeDurationCalculator;
-import com.aldaviva.dreamstats.stats.DateVsSleepDurationCalculator;
-import com.aldaviva.dreamstats.stats.DayOfWeekVsSleepDurationCalculator;
-import com.aldaviva.dreamstats.stats.DurationSinceEatingVsSleepDuration;
-import com.aldaviva.dreamstats.stats.PreviousEventVsSleepDurationCalculator;
-import com.aldaviva.dreamstats.stats.StartTimeVsSleepDurationCalculator;
 
 @Component
 @Path("/stats")
 @Produces({ MediaType.APPLICATION_JSON })
 public class StatsApi {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(StatsApi.class);
 
 	@Autowired private StartTimeVsSleepDurationCalculator startTimeVsSleepDurationCalculator;
 	@Autowired private DurationSinceEatingVsSleepDuration durationSinceEatingVsSleepDuration;
@@ -33,26 +36,30 @@ public class StatsApi {
 	@Autowired private DateVsSleepDurationCalculator dateVsSleepDurationCalculator;
 	@Autowired private DateVsAwakeDurationCalculator dateVsAwakeDurationCalculator;
 
+	public StatsApi(){
+		LOGGER.info("/api/stats ready");
+	}
+
 	@GET
 	@Path("start-time-vs-sleep-duration")
-	public Map<LocalTime, Map<Duration, Integer>> getStartTimeVsSleepDuration() {
-		return startTimeVsSleepDurationCalculator.calculateStats();
+	public StatsBundle<LocalTime, Duration> getStartTimeVsSleepDuration() {
+		return startTimeVsSleepDurationCalculator.getStatsBundle();
 	}
 
 	@GET
 	@Path("duration-since-eating-vs-sleep-duration")
-	public Map<Duration, Map<Duration, Integer>> getDurationSinceEatingVsSleepDuration() {
-		return durationSinceEatingVsSleepDuration.calculateStats();
+	public StatsBundle<Duration, Duration> getDurationSinceEatingVsSleepDuration() {
+		return durationSinceEatingVsSleepDuration.getStatsBundle();
 	}
 
 	@GET
 	@Path("previous-event-vs-sleep-duration")
-	public Map<String, Map<Duration, Integer>> getPreviousEventVsSleepDuration() {
-		return previousEventVsSleepDurationCalculator.calculateStats();
+	public StatsBundle<String, Duration> getPreviousEventVsSleepDuration() {
+		return previousEventVsSleepDurationCalculator.getStatsBundle();
 	}
 
 	/**
-	 * See {@link DateTimeConstants}
+	 * Day of week: see {@link DateTimeConstants}
 	 * 1 = Monday
 	 * 2 = Tuesday
 	 * ...
@@ -60,20 +67,20 @@ public class StatsApi {
 	 */
 	@GET
 	@Path("day-of-week-vs-sleep-duration")
-	public Map<Integer, Map<Duration, Integer>> getDayOfWeekVsSleepDuration() {
-		return dayOfWeekVsSleepDurationCalculator.calculateStats();
+	public StatsBundle<Integer, Duration> getDayOfWeekVsSleepDuration() {
+		return dayOfWeekVsSleepDurationCalculator.getStatsBundle();
 	}
 
 	@GET
 	@Path("date-vs-sleep-duration")
-	public Map<LocalDate, Map<Duration, Integer>> getDateVsSleepDuration(){
-		return dateVsSleepDurationCalculator.calculateStats();
+	public StatsBundle<LocalDate, Duration> getDateVsSleepDuration(){
+		return dateVsSleepDurationCalculator.getStatsBundle();
 	}
 
 	@GET
 	@Path("date-vs-awake-duration")
-	public Map<LocalDate, Map<Duration, Integer>> getDateVsAwakeDuration(){
-		return dateVsAwakeDurationCalculator.calculateStats();
+	public StatsBundle<LocalDate, Duration> getDateVsAwakeDuration(){
+		return dateVsAwakeDurationCalculator.getStatsBundle();
 	}
 
 }

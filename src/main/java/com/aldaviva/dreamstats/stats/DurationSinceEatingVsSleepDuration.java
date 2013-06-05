@@ -1,8 +1,6 @@
 package com.aldaviva.dreamstats.stats;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -11,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.aldaviva.dreamstats.data.dto.Axis;
 import com.aldaviva.dreamstats.data.dto.DurationAxis;
 import com.aldaviva.dreamstats.data.dto.SleepDurationAxis;
+import com.aldaviva.dreamstats.data.dto.StatsTable;
 import com.aldaviva.dreamstats.data.enums.EventName;
 import com.aldaviva.dreamstats.data.model.CalendarEvent;
 import com.google.common.base.Predicate;
@@ -19,7 +18,7 @@ import com.google.common.base.Predicate;
 public class DurationSinceEatingVsSleepDuration extends BaseStatsCalculator<Duration, Duration> {
 
 	@Override
-	protected Map<Duration, Map<Duration, Integer>> calculateStats() {
+	protected void calculateStats(final StatsTable<Duration, Duration> results) {
 		final List<CalendarEvent> events = calendarService.findEvents(new Predicate<CalendarEvent>() {
 			@Override
 			public boolean apply(final CalendarEvent input) {
@@ -27,8 +26,6 @@ public class DurationSinceEatingVsSleepDuration extends BaseStatsCalculator<Dura
 				return EventName.Sleep.equals(name) || EventName.Food.equals(name);
 			}
 		});
-
-		final Map<Duration, Map<Duration, Integer>> result = new HashMap<>();
 
 		DateTime mostRecentFoodEnd = null;
 
@@ -39,12 +36,10 @@ public class DurationSinceEatingVsSleepDuration extends BaseStatsCalculator<Dura
 			} else if(EventName.Sleep.equals(event.getName())){
 				if(mostRecentFoodEnd != null){
 					final Duration timeBetweenFoodEndingAndSleepStarting = new Duration(mostRecentFoodEnd, event.getStart());
-					incrementTableBucket(result, timeBetweenFoodEndingAndSleepStarting, event.getDuration());
+					incrementTableBucket(results, timeBetweenFoodEndingAndSleepStarting, event.getDuration());
 				}
 			}
 		}
-
-		return result;
 	}
 
 	@Override

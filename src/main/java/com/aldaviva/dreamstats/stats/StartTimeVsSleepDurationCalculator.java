@@ -1,8 +1,6 @@
 package com.aldaviva.dreamstats.stats;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.joda.time.Duration;
 import org.joda.time.LocalTime;
@@ -12,12 +10,28 @@ import org.springframework.stereotype.Component;
 import com.aldaviva.dreamstats.data.dto.Axis;
 import com.aldaviva.dreamstats.data.dto.LocalTimeAxis;
 import com.aldaviva.dreamstats.data.dto.SleepDurationAxis;
+import com.aldaviva.dreamstats.data.dto.StatsTable;
 import com.aldaviva.dreamstats.data.enums.EventName;
 import com.aldaviva.dreamstats.data.model.CalendarEvent;
 import com.google.common.base.Predicate;
 
 @Component
 public class StartTimeVsSleepDurationCalculator extends BaseStatsCalculator<LocalTime, Duration> {
+
+	@Override
+	protected void calculateStats(final StatsTable<LocalTime, Duration> results) {
+		final List<CalendarEvent> events = calendarService.findEvents(new Predicate<CalendarEvent>() {
+
+			@Override
+			public boolean apply(final CalendarEvent input) {
+				return EventName.Sleep.equals(input.getName());
+			}
+		});
+
+		for (final CalendarEvent event : events) {
+			incrementTableBucket(results, event.getStart().toLocalTime(), event.getDuration());
+		}
+	}
 
 	/* Round to nearest hour */
 	@Override
@@ -29,25 +43,6 @@ public class StartTimeVsSleepDurationCalculator extends BaseStatsCalculator<Loca
 	@Override
 	protected Duration getDependentBucket(final Duration exact) {
 		return bucketizeDuration(exact);
-	}
-
-	@Override
-	protected Map<LocalTime, Map<Duration, Integer>> calculateStats() {
-		final List<CalendarEvent> events = calendarService.findEvents(new Predicate<CalendarEvent>() {
-
-			@Override
-			public boolean apply(final CalendarEvent input) {
-				return EventName.Sleep.equals(input.getName());
-			}
-		});
-
-		final Map<LocalTime, Map<Duration, Integer>> result = new HashMap<>();
-
-		for (final CalendarEvent event : events) {
-			incrementTableBucket(result, event.getStart().toLocalTime(), event.getDuration());
-		}
-
-		return result;
 	}
 
 	@Override

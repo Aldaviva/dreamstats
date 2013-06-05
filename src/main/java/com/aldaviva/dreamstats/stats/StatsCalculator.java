@@ -1,6 +1,6 @@
 package com.aldaviva.dreamstats.stats;
 
-import com.aldaviva.dreamstats.data.dto.StatsBundle;
+import com.aldaviva.dreamstats.data.model.StatsBundle;
 
 public interface StatsCalculator<IndependentType, DependentType> {
 

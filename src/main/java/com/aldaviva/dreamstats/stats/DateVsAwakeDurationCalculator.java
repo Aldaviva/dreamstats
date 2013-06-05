@@ -1,8 +1,6 @@
 package com.aldaviva.dreamstats.stats;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.joda.time.Duration;
 import org.joda.time.LocalDate;
@@ -11,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.aldaviva.dreamstats.data.dto.Axis;
 import com.aldaviva.dreamstats.data.dto.DurationAxis;
 import com.aldaviva.dreamstats.data.dto.LocalDateAxis;
+import com.aldaviva.dreamstats.data.dto.StatsTable;
 import com.aldaviva.dreamstats.data.enums.EventName;
 import com.aldaviva.dreamstats.data.model.CalendarEvent;
 import com.google.common.base.Predicate;
@@ -19,15 +18,13 @@ import com.google.common.base.Predicate;
 public class DateVsAwakeDurationCalculator extends BaseStatsCalculator<LocalDate, Duration> {
 
 	@Override
-	protected Map<LocalDate, Map<Duration, Integer>> calculateStats() {
+	protected void calculateStats(final StatsTable<LocalDate, Duration> results) {
 		final List<CalendarEvent> events = calendarService.findEvents(new Predicate<CalendarEvent>() {
 			@Override
 			public boolean apply(final CalendarEvent input) {
 				return EventName.Sleep.equals(input.getName());
 			}
 		});
-
-		final Map<LocalDate, Map<Duration, Integer>> results = new HashMap<>();
 
 		CalendarEvent previousSleepEvent = null;
 		for (final CalendarEvent event : events) {
@@ -38,8 +35,6 @@ public class DateVsAwakeDurationCalculator extends BaseStatsCalculator<LocalDate
 			}
 			previousSleepEvent = event;
 		}
-
-		return results;
 	}
 
 	@Override

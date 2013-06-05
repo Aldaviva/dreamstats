@@ -1,14 +1,12 @@
 package com.aldaviva.dreamstats.stats;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.joda.time.Duration;
 import org.joda.time.Period;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.aldaviva.dreamstats.data.dto.Axis;
-import com.aldaviva.dreamstats.data.dto.StatsBundle;
+import com.aldaviva.dreamstats.data.dto.StatsTable;
+import com.aldaviva.dreamstats.data.model.StatsBundle;
 import com.aldaviva.dreamstats.remote.calendar.CalendarService;
 
 public abstract class BaseStatsCalculator<IndependentType, DependentType> implements StatsCalculator<IndependentType, DependentType> {
@@ -24,15 +22,14 @@ public abstract class BaseStatsCalculator<IndependentType, DependentType> implem
 	@Override
 	public StatsBundle<IndependentType, DependentType> getStatsBundle(){
 		final StatsBundle<IndependentType, DependentType> statsBundle = new StatsBundle<>();
-		statsBundle.setStats(calculateStats());
-		statsBundle.getAxes().independentAxis = getIndependentAxis();
-		statsBundle.getAxes().dependentAxis = getDependentAxis();
-		statsBundle.updateAxesFromStats();
+		statsBundle.setIndependentAxis(getIndependentAxis());
+		statsBundle.setDependentAxis(getDependentAxis());
+		calculateStats(statsBundle.getStats());
 
 		return statsBundle;
 	}
 
-	protected abstract Map<IndependentType, Map<DependentType, Integer>> calculateStats();
+	protected abstract void calculateStats(StatsTable<IndependentType, DependentType> statsTable);
 
 	protected abstract IndependentType getIndependentBucket(IndependentType exact);
 	protected abstract DependentType getDependentBucket(DependentType exact);
@@ -52,21 +49,12 @@ public abstract class BaseStatsCalculator<IndependentType, DependentType> implem
 		return result.toStandardDuration();
 	}
 
-	protected void incrementTableBucket(final Map<IndependentType, Map<DependentType, Integer>> table, final IndependentType independentExact, final DependentType dependentExact) {
+	protected void incrementTableBucket(final StatsTable<IndependentType, DependentType> table, final IndependentType independentExact, final DependentType dependentExact) {
 		final IndependentType independentBucket = getIndependentBucket(independentExact);
-		final DependentType dependentNBucket = getDependentBucket(dependentExact);
+		final DependentType dependentBucket = getDependentBucket(dependentExact);
 
-		Map<DependentType, Integer> column = table.get(independentBucket);
-		if(column == null){
-			column = new HashMap<>();
-			table.put(independentBucket, column);
-		}
-
-		Integer bucket = column.get(dependentNBucket);
-		if(bucket == null){
-			bucket = 0;
-		}
-
-		column.put(dependentNBucket, bucket + 1);
+		table.increment(independentBucket, dependentBucket);
+		table.getBundle().getIndependentAxis().addValue(independentBucket);
+		table.getBundle().getDependentAxis().addValue(dependentBucket);
 	}
 }

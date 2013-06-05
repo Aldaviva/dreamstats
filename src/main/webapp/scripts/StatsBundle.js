@@ -29,7 +29,7 @@ this.StatsBundle = (function(){
 		 * @returns object where the key is the axis, and the value is an array containing the min and max (in order) of the axis' range
 		 * @example { "independent": [0, 82800], "dependent": [7200, 52200] }
 		 */
-		getRanges: function(){
+		/*getRanges: function(){
 			if(!this._ranges){
 				var ranges = this._ranges = {
 					independent: _(this.stats).keys(),
@@ -43,13 +43,13 @@ this.StatsBundle = (function(){
 			}
 			
 			return this._ranges;
-		},
+		},*/
 
 		/**
 		 * @returns an object where the key is the axis, and the value is an array of the buckets along that axis
 		 * @example: { "independent": [0, 1, 2, 3], "dependent": [3000, 3200, 3400, 3600] }
 		 */
-		getBuckets: function(){
+		/*getBuckets: function(){
 			var ranges = this.getRanges();
 
 			if(!this._buckets){
@@ -61,8 +61,37 @@ this.StatsBundle = (function(){
 				};
 
 				_.each(ranges, function(range, axis){
-					buckets[axis] = _.range(range[0], range[1] + intervals[axis], intervals[axis]);
+					var interval = intervals[axis];
+					if(!_.isNull(interval)){
+						buckets[axis] = _.range(range[0], range[1] + interval, interval);
+					} else {
+
+					}
 				});
+			}
+
+			return this._buckets;
+		}*/
+
+		/**
+		 * @returns an object where the key is the axis, and the value is an array of the buckets along that axis
+		 * @example: { "independent": [0, 1, 2, 3], "dependent": [3000, 3200, 3400, 3600] }
+		 */
+		getBuckets: function(){
+			if(!this._buckets){
+				var axisTypes = 
+
+				var buckets = this._buckets = {
+					independent: _(this.stats).keys(),
+					dependent:   _(this.stats).map(_.keys).flatten()
+				};
+
+				_.each(buckets, function(keys, axis){
+					var sortedKeys = keys.map(parseInt10).sortBy().value()
+
+					if()
+				});
+
 			}
 
 			return this._buckets;
@@ -70,7 +99,13 @@ this.StatsBundle = (function(){
 	});
 	
 	function parseInt10(i){
-		return parseInt(i, 10);
+		var parsed = parseInt(i, 10);
+
+		if(!_.isNaN(parsed)){
+			return parsed;
+		} else {
+			return i; //strings pass through unchanged
+		}
 	}
 	
 	return StatsBundle;

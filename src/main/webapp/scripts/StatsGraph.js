@@ -1,14 +1,19 @@
 this.StatsGraph = (function(){
 
 	var StatsGraph = my.Class({
-		constructor: function(){
+		constructor: function(opts){
 			_.bindAll(this);
+			_.extend(this, opts);
+
 			this.$el = $('<div>');
-			this.el = $el[0];
+
+			this.bundle.bind('afterFetch', _.bind(function(bundle){
+				this.render();
+			}, this));
 		},
 
 		render: function(){
-			return this.el;
+			
 		}
 	});
 

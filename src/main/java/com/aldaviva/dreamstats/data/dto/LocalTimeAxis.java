@@ -2,7 +2,6 @@ package com.aldaviva.dreamstats.data.dto;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
@@ -17,9 +16,10 @@ public class LocalTimeAxis extends Axis<LocalTime> {
 	}
 
 	@Override
-	protected List<LocalTime> getRange(final LocalTime min, final LocalTime max, final Set<LocalTime> values) {
+	public List<LocalTime> getRange() {
 		final List<LocalTime> result = new ArrayList<>();
-		for(LocalTime curr = min; curr.isBefore(max); curr = curr.plus(interval)){
+		final LocalTime max = getMax();
+		for(LocalTime curr = getMin(); curr.isBefore(max); curr = curr.plus(interval)){
 			result.add(curr);
 		}
 		return result;

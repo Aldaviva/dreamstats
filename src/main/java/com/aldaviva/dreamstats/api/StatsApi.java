@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.aldaviva.dreamstats.data.dto.StatsBundle;
+import com.aldaviva.dreamstats.data.model.StatsBundle;
 import com.aldaviva.dreamstats.stats.DateVsAwakeDurationCalculator;
 import com.aldaviva.dreamstats.stats.DateVsSleepDurationCalculator;
 import com.aldaviva.dreamstats.stats.DayOfWeekVsSleepDurationCalculator;

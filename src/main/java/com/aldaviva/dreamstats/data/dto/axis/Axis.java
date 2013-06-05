@@ -1,9 +1,11 @@
-package com.aldaviva.dreamstats.data.dto;
+package com.aldaviva.dreamstats.data.dto.axis;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+
+import com.aldaviva.dreamstats.data.dto.CastingComparator;
 
 
 public abstract class Axis<Type> {
@@ -11,7 +13,6 @@ public abstract class Axis<Type> {
 	private static final CastingComparator<Object> CASTING_COMPARATOR = new CastingComparator<>();
 
 	private String id;
-//	private List<Type> values;
 	protected final Set<Type> values;
 
 	public Axis(final String id) {
@@ -30,28 +31,12 @@ public abstract class Axis<Type> {
 		values.add(value);
 	}
 
-//	public Duration getInterval() {
-//		return interval;
-//	}
-//	public void setInterval(final Duration interval) {
-//		this.interval = interval;
-//	}
-//	public List<Type> getValues() {
-//		return values;
-//	}
-//	public void setValues(final List<Type> values) {
-//		this.values = values;
-//	}
-//	public final void setValuesByRange(final Type min, final Type max, final Set<Type> values){
-//		setValues(getRange(min, max, values));
-//	}
+	public abstract List<Type> getRange();
 
-	public abstract List<Type> getRange(/*Type min, Type max, Set<Type> values*/);
-
-	protected Type getMin(){
+	public Type getMin(){
 		return Collections.min(values, CASTING_COMPARATOR);
 	}
-	protected Type getMax(){
+	public Type getMax(){
 		return Collections.max(values, CASTING_COMPARATOR);
 	}
 

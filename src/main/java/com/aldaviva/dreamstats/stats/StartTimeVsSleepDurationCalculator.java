@@ -7,10 +7,10 @@ import org.joda.time.LocalTime;
 import org.joda.time.Period;
 import org.springframework.stereotype.Component;
 
-import com.aldaviva.dreamstats.data.dto.Axis;
-import com.aldaviva.dreamstats.data.dto.LocalTimeAxis;
-import com.aldaviva.dreamstats.data.dto.SleepDurationAxis;
-import com.aldaviva.dreamstats.data.dto.StatsTable;
+import com.aldaviva.dreamstats.data.dto.axis.Axis;
+import com.aldaviva.dreamstats.data.dto.axis.LocalTimeAxis;
+import com.aldaviva.dreamstats.data.dto.axis.SleepDurationAxis;
+import com.aldaviva.dreamstats.data.dto.table.StatsTable;
 import com.aldaviva.dreamstats.data.enums.EventName;
 import com.aldaviva.dreamstats.data.model.CalendarEvent;
 import com.google.common.base.Predicate;

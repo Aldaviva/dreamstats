@@ -13,7 +13,13 @@ this.StatsGraph = (function(){
 		},
 
 		render: function(){
-			
+			//iterate through
+			var rowCount = this.bundle.dependent.length;
+			var columnCount = this.bundle.independent.length;
+
+			this.bundle.forEach(function(indep, indepIdx, dep, depIdx, val, rank){
+
+			}, this);
 		}
 	});
 

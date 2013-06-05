@@ -1,4 +1,4 @@
-package com.aldaviva.dreamstats.data.dto;
+package com.aldaviva.dreamstats.data.dto.axis;
 
 import com.aldaviva.dreamstats.stats.BaseStatsCalculator;
 

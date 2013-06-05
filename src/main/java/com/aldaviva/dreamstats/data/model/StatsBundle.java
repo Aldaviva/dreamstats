@@ -7,10 +7,10 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import com.aldaviva.dreamstats.api.ApiConfig;
 import com.aldaviva.dreamstats.api.marshal.StatsBundleSerializer;
 import com.aldaviva.dreamstats.api.marshal.TripleArraySerializer;
-import com.aldaviva.dreamstats.data.dto.Axis;
-import com.aldaviva.dreamstats.data.dto.MultisetStatsTable;
-import com.aldaviva.dreamstats.data.dto.StatsCoordinate;
-import com.aldaviva.dreamstats.data.dto.StatsTable;
+import com.aldaviva.dreamstats.data.dto.axis.Axis;
+import com.aldaviva.dreamstats.data.dto.table.MultisetStatsTable;
+import com.aldaviva.dreamstats.data.dto.table.StatsCoordinate;
+import com.aldaviva.dreamstats.data.dto.table.StatsTable;
 import com.google.common.collect.Multiset;
 
 @JsonSerialize(using=StatsBundleSerializer.class)

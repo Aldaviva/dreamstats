@@ -8,7 +8,7 @@ import org.codehaus.jackson.map.SerializerProvider;
 import org.codehaus.jackson.map.ser.std.SerializerBase;
 import org.codehaus.jackson.map.type.SimpleType;
 
-import com.aldaviva.dreamstats.data.dto.StatsCoordinate;
+import com.aldaviva.dreamstats.data.dto.table.StatsCoordinate;
 import com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.Multisets;
 

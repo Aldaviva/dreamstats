@@ -9,7 +9,7 @@ import org.codehaus.jackson.map.ser.std.SerializerBase;
 import org.codehaus.jackson.map.type.CollectionType;
 import org.codehaus.jackson.map.type.SimpleType;
 
-import com.aldaviva.dreamstats.data.dto.StatsCoordinate;
+import com.aldaviva.dreamstats.data.dto.table.StatsCoordinate;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Multiset.Entry;
 

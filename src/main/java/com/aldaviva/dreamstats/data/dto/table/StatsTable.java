@@ -1,4 +1,4 @@
-package com.aldaviva.dreamstats.data.dto;
+package com.aldaviva.dreamstats.data.dto.table;
 
 import com.aldaviva.dreamstats.data.model.StatsBundle;
 

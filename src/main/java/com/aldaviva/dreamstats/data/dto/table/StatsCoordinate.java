@@ -1,6 +1,8 @@
-package com.aldaviva.dreamstats.data.dto;
+package com.aldaviva.dreamstats.data.dto.table;
 
 import java.util.Comparator;
+
+import com.aldaviva.dreamstats.data.dto.CastingComparator;
 
 public class StatsCoordinate<IndependentType, DependentType> implements Comparable<StatsCoordinate<IndependentType, DependentType>> {
 

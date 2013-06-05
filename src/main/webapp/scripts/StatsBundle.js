@@ -4,7 +4,7 @@ this.StatsBundle = (function(){
 		
 		STATIC: {
 			CONSTRUCTOR_OPTS: ['url'],
-			DATA_OPTS: ["stats", "independentInterval", "dependentInterval", "independentType", "dependentType"]
+			DATA_OPTS: ["independent", "dependent", "counts"]
 		},
 		
 		constructor: function(opts){
@@ -20,93 +20,35 @@ this.StatsBundle = (function(){
 			return $.get('api/stats/'+this.url, 'json')
 				.done(_.bind(function(data){
 					_.extend(this, _.pick(data, StatsBundle.DATA_OPTS));
-					this._ranges = this._buckets = null;
 					this.trigger('afterFetch', this);
 				}, this));
 		},
-		
-		/**
-		 * @returns object where the key is the axis, and the value is an array containing the min and max (in order) of the axis' range
-		 * @example { "independent": [0, 82800], "dependent": [7200, 52200] }
-		 */
-		/*getRanges: function(){
-			if(!this._ranges){
-				var ranges = this._ranges = {
-					independent: _(this.stats).keys(),
-					dependent:   _(this.stats).map(_.keys).flatten()
-				};
-				
-				_.each(ranges, function(keys, axis){
-					var sortedKeys = keys.map(parseInt10).sortBy().value()
-					ranges[axis] = [_.first(sortedKeys), _.last(sortedKeys)];
-				});
-			}
-			
-			return this._ranges;
-		},*/
 
 		/**
-		 * @returns an object where the key is the axis, and the value is an array of the buckets along that axis
-		 * @example: { "independent": [0, 1, 2, 3], "dependent": [3000, 3200, 3400, 3600] }
+		 * Iterate over the data. Callback looks like
+		 *  function(independentBucket, independentIndex, dependentBucket, dependentIndex, count, rank) {}
 		 */
-		/*getBuckets: function(){
-			var ranges = this.getRanges();
+		forEach: function(callback, context){
+			var boundCallback = _.bind(callback, context);
 
-			if(!this._buckets){
-				var buckets = this._buckets = {};
+			if(this.counts){
+				var numEntries = this.counts.values.length;
+				var dependentLength = this.dependent.length;
+				for(int i=0; i < numEntries; ++i){
+					var independentBucket = this.independent.values[i];
+					var independentIndex = ~~(i/dependentLength);
 
-				var intervals = {
-					independent: this.independentInterval,
-					dependent: this.dependentInterval
-				};
+					var dependentBucket = this.dependent.values[i];
+					var dependentIndex = i % dependentLength;
 
-				_.each(ranges, function(range, axis){
-					var interval = intervals[axis];
-					if(!_.isNull(interval)){
-						buckets[axis] = _.range(range[0], range[1] + interval, interval);
-					} else {
+					var count = this.counts.values[i];
+					var rank = this.counts.ranks[i]
 
-					}
-				});
+					boundCallback(independentBucket, independentIndex, dependentBucket, dependentIndex, count, rank);
+				}
 			}
-
-			return this._buckets;
-		}*/
-
-		/**
-		 * @returns an object where the key is the axis, and the value is an array of the buckets along that axis
-		 * @example: { "independent": [0, 1, 2, 3], "dependent": [3000, 3200, 3400, 3600] }
-		 */
-		getBuckets: function(){
-			if(!this._buckets){
-				var axisTypes = 
-
-				var buckets = this._buckets = {
-					independent: _(this.stats).keys(),
-					dependent:   _(this.stats).map(_.keys).flatten()
-				};
-
-				_.each(buckets, function(keys, axis){
-					var sortedKeys = keys.map(parseInt10).sortBy().value()
-
-					if()
-				});
-
-			}
-
-			return this._buckets;
 		}
 	});
-	
-	function parseInt10(i){
-		var parsed = parseInt(i, 10);
-
-		if(!_.isNaN(parsed)){
-			return parsed;
-		} else {
-			return i; //strings pass through unchanged
-		}
-	}
 	
 	return StatsBundle;
 	

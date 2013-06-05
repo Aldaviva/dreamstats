@@ -5,10 +5,10 @@ import java.util.List;
 import org.joda.time.Duration;
 import org.springframework.stereotype.Component;
 
-import com.aldaviva.dreamstats.data.dto.Axis;
-import com.aldaviva.dreamstats.data.dto.IntegerAxis;
-import com.aldaviva.dreamstats.data.dto.SleepDurationAxis;
-import com.aldaviva.dreamstats.data.dto.StatsTable;
+import com.aldaviva.dreamstats.data.dto.axis.Axis;
+import com.aldaviva.dreamstats.data.dto.axis.IntegerAxis;
+import com.aldaviva.dreamstats.data.dto.axis.SleepDurationAxis;
+import com.aldaviva.dreamstats.data.dto.table.StatsTable;
 import com.aldaviva.dreamstats.data.enums.EventName;
 import com.aldaviva.dreamstats.data.model.CalendarEvent;
 import com.google.common.base.Predicate;

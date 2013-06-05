@@ -2,7 +2,7 @@ package com.aldaviva.dreamstats.data.dto;
 
 import java.util.Comparator;
 
-final class CastingComparator<T> implements Comparator<T> {
+public class CastingComparator<T> implements Comparator<T> {
 
 	@SuppressWarnings("unchecked")
 	@Override

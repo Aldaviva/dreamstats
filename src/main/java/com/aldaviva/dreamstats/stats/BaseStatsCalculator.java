@@ -4,8 +4,8 @@ import org.joda.time.Duration;
 import org.joda.time.Period;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.aldaviva.dreamstats.data.dto.Axis;
-import com.aldaviva.dreamstats.data.dto.StatsTable;
+import com.aldaviva.dreamstats.data.dto.axis.Axis;
+import com.aldaviva.dreamstats.data.dto.table.StatsTable;
 import com.aldaviva.dreamstats.data.model.StatsBundle;
 import com.aldaviva.dreamstats.remote.calendar.CalendarService;
 

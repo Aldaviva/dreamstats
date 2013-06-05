@@ -1,4 +1,4 @@
-package com.aldaviva.dreamstats.data.dto;
+package com.aldaviva.dreamstats.data.dto.table;
 
 import java.util.HashMap;
 import java.util.Map;

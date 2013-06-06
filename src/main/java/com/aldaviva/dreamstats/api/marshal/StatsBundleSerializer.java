@@ -1,5 +1,9 @@
 package com.aldaviva.dreamstats.api.marshal;
 
+import com.aldaviva.dreamstats.data.dto.axis.Axis;
+import com.aldaviva.dreamstats.data.dto.table.StatsCoordinate;
+import com.aldaviva.dreamstats.data.model.StatsBundle;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,8 +16,6 @@ import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.SerializerProvider;
 import org.codehaus.jackson.map.ser.std.SerializerBase;
 
-import com.aldaviva.dreamstats.data.dto.table.StatsCoordinate;
-import com.aldaviva.dreamstats.data.model.StatsBundle;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Multiset.Entry;
 
@@ -28,8 +30,9 @@ public class StatsBundleSerializer extends SerializerBase<StatsBundle> {
 	private static final String FIELD_INDEPENDENT = "independent";
 	private static final String FIELD_MIN = "min";
 	private static final String FIELD_MAX = "max";
-	private static final String FIELD_LENGTH = "length";
+	private static final String FIELD_LENGTH = "size";
 	private static final String FIELD_RANKS = "ranks";
+	private static final String FIELD_LABEL = "label";
 
 	public StatsBundleSerializer(){
 		super(StatsBundle.class);
@@ -70,10 +73,7 @@ public class StatsBundleSerializer extends SerializerBase<StatsBundle> {
 		}
 
 		jgen.writeObjectFieldStart(FIELD_INDEPENDENT);
-		jgen.writeStringField(FIELD_ID, bundle.getIndependentAxis().getId());
-		jgen.writeStringField(FIELD_TYPE, bundle.getIndependentAxis().getType().getSimpleName());
-		jgen.writeObjectField(FIELD_MIN, bundle.getIndependentAxis().getMin());
-		jgen.writeObjectField(FIELD_MAX, bundle.getIndependentAxis().getMax());
+		writeAxisFields(bundle.getIndependentAxis(), jgen);
 		jgen.writeNumberField(FIELD_LENGTH, independentCount);
 		jgen.writeArrayFieldStart(FIELD_VALUES);
 		for(final Object independentBucket : independentRange){
@@ -85,10 +85,7 @@ public class StatsBundleSerializer extends SerializerBase<StatsBundle> {
 		jgen.writeEndObject();
 
 		jgen.writeObjectFieldStart(FIELD_DEPENDENT);
-		jgen.writeStringField(FIELD_ID, bundle.getDependentAxis().getId());
-		jgen.writeStringField(FIELD_TYPE, bundle.getDependentAxis().getType().getSimpleName());
-		jgen.writeObjectField(FIELD_MIN, bundle.getDependentAxis().getMin());
-		jgen.writeObjectField(FIELD_MAX, bundle.getDependentAxis().getMax());
+		writeAxisFields(bundle.getDependentAxis(), jgen);
 		jgen.writeNumberField(FIELD_LENGTH, dependentCount);
 		jgen.writeArrayFieldStart(FIELD_VALUES);
 		for(int i=0; i < independentCount; i++){
@@ -105,6 +102,14 @@ public class StatsBundleSerializer extends SerializerBase<StatsBundle> {
 		jgen.writeEndObject();
 
 		jgen.writeEndObject();
+	}
+
+	private void writeAxisFields(final Axis axis, final JsonGenerator jgen) throws JsonGenerationException, IOException{
+		jgen.writeStringField(FIELD_ID, axis.getId());
+		jgen.writeStringField(FIELD_TYPE, axis.getType().getSimpleName());
+		jgen.writeObjectField(FIELD_MIN, axis.getMin());
+		jgen.writeObjectField(FIELD_MAX, axis.getMax());
+		jgen.writeStringField(FIELD_LABEL, axis.getLabel());
 	}
 
 }

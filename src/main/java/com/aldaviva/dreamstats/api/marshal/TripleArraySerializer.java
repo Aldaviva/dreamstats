@@ -1,5 +1,7 @@
 package com.aldaviva.dreamstats.api.marshal;
 
+import com.aldaviva.dreamstats.data.dto.table.StatsCoordinate;
+
 import java.io.IOException;
 
 import org.codehaus.jackson.JsonGenerationException;
@@ -9,7 +11,6 @@ import org.codehaus.jackson.map.ser.std.SerializerBase;
 import org.codehaus.jackson.map.type.CollectionType;
 import org.codehaus.jackson.map.type.SimpleType;
 
-import com.aldaviva.dreamstats.data.dto.table.StatsCoordinate;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Multiset.Entry;
 

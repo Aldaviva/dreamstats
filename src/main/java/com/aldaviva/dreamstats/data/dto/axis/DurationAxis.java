@@ -9,8 +9,8 @@ public class DurationAxis extends Axis<Duration> {
 
 	private final Duration interval;
 
-	public DurationAxis(final String id, final Duration interval) {
-		super(id);
+	public DurationAxis(final String id, final String label, final Duration interval) {
+		super(id, label);
 		this.interval = interval;
 	}
 

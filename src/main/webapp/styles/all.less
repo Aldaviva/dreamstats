@@ -1,0 +1,46 @@
+@cell_color: #00b600;
+
+.flex-flow(@direction: row, @wrap: wrap){
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex; 
+	display: flex;
+
+	-webkit-flex-flow: @direction @wrap;
+	-moz-flex-flow: @direction @wrap;
+	-ms-flex-flow: @direction @wrap;
+	flex-flow: @direction @wrap;
+}
+
+.flex(@grow: 1, @basis: 0){
+	-webkit-flex: @grow @basis;
+	-moz-flex: @grow @basis;
+	-ms-flex: @grow @basis;
+	flex: @grow @basis;
+}
+
+body {
+	margin: 0;
+}
+
+.statsGraph {
+	display: inline-block;
+	width: 50%;
+	vertical-align: bottom;
+	padding: 1em;
+	box-sizing: border-box;
+}
+
+.table {
+	border: 1px solid rgba(0,0,0,0.5);
+
+	.row {
+		height: 1em;
+		.flex-flow(row, no-wrap);
+
+		div {
+			.flex(1);
+			background-color: @cell_color;
+		}
+	}
+}

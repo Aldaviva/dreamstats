@@ -9,8 +9,8 @@ import com.google.common.collect.Range;
 
 public class IntegerAxis extends Axis<Integer> {
 
-	public IntegerAxis(final String id) {
-		super(id);
+	public IntegerAxis(final String id, final String label) {
+		super(id, label);
 	}
 
 	@Override

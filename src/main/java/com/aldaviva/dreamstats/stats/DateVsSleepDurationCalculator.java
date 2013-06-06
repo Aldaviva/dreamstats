@@ -1,17 +1,18 @@
 package com.aldaviva.dreamstats.stats;
 
-import java.util.List;
-
-import org.joda.time.Duration;
-import org.joda.time.LocalDate;
-import org.springframework.stereotype.Component;
-
 import com.aldaviva.dreamstats.data.dto.axis.Axis;
 import com.aldaviva.dreamstats.data.dto.axis.LocalDateAxis;
 import com.aldaviva.dreamstats.data.dto.axis.SleepDurationAxis;
 import com.aldaviva.dreamstats.data.dto.table.StatsTable;
 import com.aldaviva.dreamstats.data.enums.EventName;
 import com.aldaviva.dreamstats.data.model.CalendarEvent;
+
+import java.util.List;
+
+import org.joda.time.Duration;
+import org.joda.time.LocalDate;
+import org.springframework.stereotype.Component;
+
 import com.google.common.base.Predicate;
 
 @Component
@@ -43,7 +44,7 @@ public class DateVsSleepDurationCalculator extends BaseStatsCalculator<LocalDate
 
 	@Override
 	protected Axis<LocalDate> getIndependentAxis() {
-		return new LocalDateAxis("date");
+		return new LocalDateAxis("date", "Date");
 	}
 
 	@Override

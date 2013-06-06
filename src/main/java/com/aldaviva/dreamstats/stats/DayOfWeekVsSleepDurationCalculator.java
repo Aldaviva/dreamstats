@@ -1,16 +1,17 @@
 package com.aldaviva.dreamstats.stats;
 
-import java.util.List;
-
-import org.joda.time.Duration;
-import org.springframework.stereotype.Component;
-
 import com.aldaviva.dreamstats.data.dto.axis.Axis;
 import com.aldaviva.dreamstats.data.dto.axis.IntegerAxis;
 import com.aldaviva.dreamstats.data.dto.axis.SleepDurationAxis;
 import com.aldaviva.dreamstats.data.dto.table.StatsTable;
 import com.aldaviva.dreamstats.data.enums.EventName;
 import com.aldaviva.dreamstats.data.model.CalendarEvent;
+
+import java.util.List;
+
+import org.joda.time.Duration;
+import org.springframework.stereotype.Component;
+
 import com.google.common.base.Predicate;
 
 @Component
@@ -42,7 +43,7 @@ public class DayOfWeekVsSleepDurationCalculator extends BaseStatsCalculator<Inte
 
 	@Override
 	protected Axis<Integer> getIndependentAxis() {
-		return new IntegerAxis("day-of-week"); //each day of the week gets its own column, gaps are not necessary
+		return new IntegerAxis("day-of-week", "Day of Week"); //each day of the week gets its own column, gaps are not necessary
 	}
 
 	@Override

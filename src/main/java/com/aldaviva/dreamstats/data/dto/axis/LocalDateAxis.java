@@ -7,8 +7,8 @@ import org.joda.time.LocalDate;
 
 public class LocalDateAxis extends Axis<LocalDate> {
 
-	public LocalDateAxis(final String id) {
-		super(id);
+	public LocalDateAxis(final String id, final String label) {
+		super(id, label);
 	}
 
 	@Override

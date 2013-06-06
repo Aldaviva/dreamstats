@@ -8,17 +8,17 @@
 		previousEventVsSleepDuration:       new StatsBundle({ url: 'previous-event-vs-sleep-duration'})
 	};
 	
-	var statsGraphs = {
-		startTimeVsSleepDuration:           new StatsGraph({ bundle: statsBundles.startTimeVsSleepDuration,           independentLabel: "Start Time",            dependentLabel: "Sleep Duration" }),
-		dayOfWeekVsSleepDuration:           new StatsGraph({ bundle: statsBundles.dayOfWeekVsSleepDuration,           independentLabel: "Day of Week",           dependentLabel: "Sleep Duration" }),
-		dateVsSleepDuration:                new StatsGraph({ bundle: statsBundles.dateVsSleepDuration,                independentLabel: "Date",                  dependentLabel: "Sleep Duration" }),
-		dateVsAwakeDuration:                new StatsGraph({ bundle: statsBundles.dateVsAwakeDuration,                independentLabel: "Date",                  dependentLabel: "Awake Duration" }),
-		durationSinceEatingVsSleepDuration: new StatsGraph({ bundle: statsBundles.durationSinceEatingVsSleepDuration, independentLabel: "Duration Since Eating", dependentLabel: "Sleep Duration" }),
-		previousEventVsSleepDuration:       new StatsGraph({ bundle: statsBundles.previousEventVsSleepDuration,       independentLabel: "Previous Event",        dependentLabel: "Sleep Duration" }),
-	};
+	var statsGraphs = [
+		new StatsGraph({ bundle: statsBundles.startTimeVsSleepDuration,           independentLabel: "Start Time",            dependentLabel: "Sleep Duration" }),
+		new StatsGraph({ bundle: statsBundles.durationSinceEatingVsSleepDuration, independentLabel: "Duration Since Eating", dependentLabel: "Sleep Duration" }),
+		new StatsGraph({ bundle: statsBundles.dayOfWeekVsSleepDuration,           independentLabel: "Day of Week",           dependentLabel: "Sleep Duration" }),
+		new StatsGraph({ bundle: statsBundles.previousEventVsSleepDuration,       independentLabel: "Previous Event",        dependentLabel: "Sleep Duration" }),
+		new StatsGraph({ bundle: statsBundles.dateVsSleepDuration,                independentLabel: "Date",                  dependentLabel: "Sleep Duration" }),
+		new StatsGraph({ bundle: statsBundles.dateVsAwakeDuration,                independentLabel: "Date",                  dependentLabel: "Awake Duration" }),
+	];
 	
-	_.each(statsGraph, function(statsGraph){
-		$(document.body).append(statsGraph.$el);
+	_.each(statsGraphs, function(statsGraph){
+		$('#tables').append(statsGraph.$el);
 	});
 
 	_.invoke(statsBundles, 'fetch');

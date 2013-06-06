@@ -1,17 +1,18 @@
 package com.aldaviva.dreamstats.stats;
 
-import java.util.List;
-
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
-import org.springframework.stereotype.Component;
-
 import com.aldaviva.dreamstats.data.dto.axis.Axis;
 import com.aldaviva.dreamstats.data.dto.axis.DurationAxis;
 import com.aldaviva.dreamstats.data.dto.axis.SleepDurationAxis;
 import com.aldaviva.dreamstats.data.dto.table.StatsTable;
 import com.aldaviva.dreamstats.data.enums.EventName;
 import com.aldaviva.dreamstats.data.model.CalendarEvent;
+
+import java.util.List;
+
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
+import org.springframework.stereotype.Component;
+
 import com.google.common.base.Predicate;
 
 @Component
@@ -54,7 +55,7 @@ public class DurationSinceEatingVsSleepDuration extends BaseStatsCalculator<Dura
 
 	@Override
 	protected Axis<Duration> getIndependentAxis() {
-		return new DurationAxis("duration-since-eating", DEFAULT_DURATION_INTERVAL);
+		return new DurationAxis("duration-since-eating", "Duration Since Eating", DEFAULT_DURATION_INTERVAL);
 	}
 
 	@Override

@@ -1,5 +1,12 @@
 package com.aldaviva.dreamstats.stats;
 
+import com.aldaviva.dreamstats.data.dto.axis.Axis;
+import com.aldaviva.dreamstats.data.dto.axis.LocalTimeAxis;
+import com.aldaviva.dreamstats.data.dto.axis.SleepDurationAxis;
+import com.aldaviva.dreamstats.data.dto.table.StatsTable;
+import com.aldaviva.dreamstats.data.enums.EventName;
+import com.aldaviva.dreamstats.data.model.CalendarEvent;
+
 import java.util.List;
 
 import org.joda.time.Duration;
@@ -7,12 +14,6 @@ import org.joda.time.LocalTime;
 import org.joda.time.Period;
 import org.springframework.stereotype.Component;
 
-import com.aldaviva.dreamstats.data.dto.axis.Axis;
-import com.aldaviva.dreamstats.data.dto.axis.LocalTimeAxis;
-import com.aldaviva.dreamstats.data.dto.axis.SleepDurationAxis;
-import com.aldaviva.dreamstats.data.dto.table.StatsTable;
-import com.aldaviva.dreamstats.data.enums.EventName;
-import com.aldaviva.dreamstats.data.model.CalendarEvent;
 import com.google.common.base.Predicate;
 
 @Component
@@ -47,7 +48,7 @@ public class StartTimeVsSleepDurationCalculator extends BaseStatsCalculator<Loca
 
 	@Override
 	protected Axis<LocalTime> getIndependentAxis() {
-		return new LocalTimeAxis("start-time", Period.hours(1));
+		return new LocalTimeAxis("start-time", "Start Time", Period.hours(1));
 	}
 
 	@Override

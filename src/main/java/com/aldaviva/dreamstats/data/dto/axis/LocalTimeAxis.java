@@ -10,8 +10,8 @@ public class LocalTimeAxis extends Axis<LocalTime> {
 
 	private final Period interval;
 
-	public LocalTimeAxis(final String id, final Period interval) {
-		super(id);
+	public LocalTimeAxis(final String id, final String label, final Period interval) {
+		super(id, label);
 		this.interval = interval;
 	}
 

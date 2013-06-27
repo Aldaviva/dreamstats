@@ -9,12 +9,12 @@
 	};
 	
 	var statsGraphs = [
-		new StatsGraph({ bundle: statsBundles.startTimeVsSleepDuration,           independentLabel: "Start Time",            dependentLabel: "Sleep Duration" }),
-		new StatsGraph({ bundle: statsBundles.durationSinceEatingVsSleepDuration, independentLabel: "Duration Since Eating", dependentLabel: "Sleep Duration" }),
-		new StatsGraph({ bundle: statsBundles.dayOfWeekVsSleepDuration,           independentLabel: "Day of Week",           dependentLabel: "Sleep Duration" }),
-		new StatsGraph({ bundle: statsBundles.previousEventVsSleepDuration,       independentLabel: "Previous Event",        dependentLabel: "Sleep Duration" }),
-		new StatsGraph({ bundle: statsBundles.dateVsSleepDuration,                independentLabel: "Date",                  dependentLabel: "Sleep Duration" }),
-		new StatsGraph({ bundle: statsBundles.dateVsAwakeDuration,                independentLabel: "Date",                  dependentLabel: "Awake Duration" }),
+		new StatsGraph({ bundle: statsBundles.startTimeVsSleepDuration           }),
+		new StatsGraph({ bundle: statsBundles.durationSinceEatingVsSleepDuration }),
+		new StatsGraph({ bundle: statsBundles.dateVsSleepDuration                }),
+		new StatsGraph({ bundle: statsBundles.dateVsAwakeDuration                }),
+		new StatsGraph({ bundle: statsBundles.dayOfWeekVsSleepDuration           }),
+		new StatsGraph({ bundle: statsBundles.previousEventVsSleepDuration       })
 	];
 	
 	_.each(statsGraphs, function(statsGraph){

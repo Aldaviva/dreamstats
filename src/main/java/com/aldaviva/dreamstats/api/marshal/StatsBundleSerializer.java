@@ -44,8 +44,11 @@ public class StatsBundleSerializer extends SerializerBase<StatsBundle> {
 
 		final Multiset<StatsCoordinate> statsTable = bundle.getStatsTable();
 
-		final List independentRange = bundle.getIndependentAxis().getRange();
-		final List dependentRange = bundle.getDependentAxis().getRange();
+		final Axis independentAxis = bundle.getIndependentAxis();
+		final Axis dependentAxis = bundle.getDependentAxis();
+
+		final List independentRange = independentAxis.getRange();
+		final List dependentRange = dependentAxis.getRange();
 
 		final int independentCount = independentRange.size();
 		final int dependentCount = dependentRange.size();
@@ -73,7 +76,7 @@ public class StatsBundleSerializer extends SerializerBase<StatsBundle> {
 		}
 
 		jgen.writeObjectFieldStart(FIELD_INDEPENDENT);
-		writeAxisFields(bundle.getIndependentAxis(), jgen);
+		writeAxisFields(independentAxis, jgen);
 		jgen.writeNumberField(FIELD_LENGTH, independentCount);
 		jgen.writeArrayFieldStart(FIELD_VALUES);
 		for(final Object independentBucket : independentRange){
@@ -85,7 +88,7 @@ public class StatsBundleSerializer extends SerializerBase<StatsBundle> {
 		jgen.writeEndObject();
 
 		jgen.writeObjectFieldStart(FIELD_DEPENDENT);
-		writeAxisFields(bundle.getDependentAxis(), jgen);
+		writeAxisFields(dependentAxis, jgen);
 		jgen.writeNumberField(FIELD_LENGTH, dependentCount);
 		jgen.writeArrayFieldStart(FIELD_VALUES);
 		for(int i=0; i < independentCount; i++){

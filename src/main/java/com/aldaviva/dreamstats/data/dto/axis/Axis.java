@@ -7,7 +7,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public abstract class Axis<Type> {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(Axis.class);
 
 	private static final CastingComparator<Object> CASTING_COMPARATOR = new CastingComparator<>();
 
@@ -39,6 +44,7 @@ public abstract class Axis<Type> {
 
 	public void addValue(final Type value) {
 		values.add(value);
+		LOGGER.debug("Axis {} was given value {} {}", label, value.getClass().getSimpleName(), value);
 	}
 
 	public abstract List<Type> getRange();

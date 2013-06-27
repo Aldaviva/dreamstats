@@ -1,5 +1,14 @@
 package com.aldaviva.dreamstats.api;
 
+import com.aldaviva.dreamstats.data.enums.DayOfWeek;
+import com.aldaviva.dreamstats.data.model.StatsBundle;
+import com.aldaviva.dreamstats.stats.DateVsAwakeDurationCalculator;
+import com.aldaviva.dreamstats.stats.DateVsSleepDurationCalculator;
+import com.aldaviva.dreamstats.stats.DayOfWeekVsSleepDurationCalculator;
+import com.aldaviva.dreamstats.stats.DurationSinceEatingVsSleepDuration;
+import com.aldaviva.dreamstats.stats.PreviousEventVsSleepDurationCalculator;
+import com.aldaviva.dreamstats.stats.StartTimeVsSleepDurationCalculator;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -13,14 +22,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.aldaviva.dreamstats.data.model.StatsBundle;
-import com.aldaviva.dreamstats.stats.DateVsAwakeDurationCalculator;
-import com.aldaviva.dreamstats.stats.DateVsSleepDurationCalculator;
-import com.aldaviva.dreamstats.stats.DayOfWeekVsSleepDurationCalculator;
-import com.aldaviva.dreamstats.stats.DurationSinceEatingVsSleepDuration;
-import com.aldaviva.dreamstats.stats.PreviousEventVsSleepDurationCalculator;
-import com.aldaviva.dreamstats.stats.StartTimeVsSleepDurationCalculator;
 
 @Component
 @Path("/stats")
@@ -67,7 +68,7 @@ public class StatsApi {
 	 */
 	@GET
 	@Path("day-of-week-vs-sleep-duration")
-	public StatsBundle<Integer, Duration> getDayOfWeekVsSleepDuration() {
+	public StatsBundle<DayOfWeek, Duration> getDayOfWeekVsSleepDuration() {
 		return dayOfWeekVsSleepDurationCalculator.getStatsBundle();
 	}
 

@@ -15,7 +15,7 @@ public class LocalDateAxis extends Axis<LocalDate> {
 	public List<LocalDate> getRange() {
 		final List<LocalDate> result = new ArrayList<>();
 		final LocalDate max = getMax();
-		for(LocalDate curr = getMin(); curr.isBefore(max); curr = curr.plusDays(1)){
+		for(LocalDate curr = getMin(); curr.isBefore(max) || curr.isEqual(max); curr = curr.plusDays(1)){
 			result.add(curr);
 		}
 		return result;

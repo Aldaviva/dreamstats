@@ -21,6 +21,9 @@ this.StatsGraph = (function(){
 			var deps = this.bundle.dependent;
 			var indeps = this.bundle.independent;
 			var counts = this.bundle.counts;
+			
+			var deserializeDep = deserializers.getDeserializer(deps.type);
+			var deserializeIndep = deserializers.getDeserializer(indeps.type);
 
 			var rowCount = deps.size;
 			var columnCount = indeps.size;
@@ -42,12 +45,16 @@ this.StatsGraph = (function(){
 			        var value = counts.values[index];
 			        var rank = counts.ranks[index];
 
+			        var deserializedIndep = deserializeIndep(indep);
+			        var deserializedDep = deserializeDep(dep);
+			        var formattedValue = value + ((value === 1) ? ' time' : ' times');
+			        
 			        var cell = $('<div>')
 			        	.css({
 			        		opacity: rank
 			        	})
 			        	.attr({
-			        		title: '('+indeps.id+': '+indep+', '+deps.id+': '+dep+') = '+value
+			        		title: '\n' + indeps.label+' = '+deserializedIndep+'\n'+deps.label+' = '+deserializedDep+'\n'+formattedValue
 			        	});
 
 			        rowEl.append(cell);

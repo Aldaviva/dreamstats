@@ -18,6 +18,11 @@ import com.google.common.base.Predicate;
 @Component
 public class DurationSinceEatingVsSleepDuration extends BaseStatsCalculator<Duration, Duration> {
 
+	/*
+	 * If I go longer than this between eating and sleeping, it means I was on vacation and not recording events.
+	 */
+	private static final Duration MAX_FASTING_DURATION = Duration.standardDays(1);
+
 	@Override
 	protected void calculateStats(final StatsTable<Duration, Duration> results) {
 		final List<CalendarEvent> events = calendarService.findEvents(new Predicate<CalendarEvent>() {
@@ -37,7 +42,9 @@ public class DurationSinceEatingVsSleepDuration extends BaseStatsCalculator<Dura
 			} else if(EventName.Sleep.equals(event.getName())){
 				if(mostRecentFoodEnd != null){
 					final Duration timeBetweenFoodEndingAndSleepStarting = new Duration(mostRecentFoodEnd, event.getStart());
-					incrementTableBucket(results, timeBetweenFoodEndingAndSleepStarting, event.getDuration());
+					if(timeBetweenFoodEndingAndSleepStarting.isShorterThan(MAX_FASTING_DURATION)){
+						incrementTableBucket(results, timeBetweenFoodEndingAndSleepStarting, event.getDuration());
+					}
 				}
 			}
 		}

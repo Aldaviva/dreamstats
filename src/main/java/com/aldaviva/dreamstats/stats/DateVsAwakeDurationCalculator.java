@@ -18,6 +18,11 @@ import com.google.common.base.Predicate;
 @Component
 public class DateVsAwakeDurationCalculator extends BaseStatsCalculator<LocalDate, Duration> {
 
+	/*
+	 * If I am awake for longer than this, it means I'm on vacation and not recording events.
+	 */
+	private static final Duration MAX_AWAKE_DURATION = Duration.standardDays(2);
+
 	@Override
 	protected void calculateStats(final StatsTable<LocalDate, Duration> results) {
 		final List<CalendarEvent> events = calendarService.findEvents(new Predicate<CalendarEvent>() {
@@ -30,9 +35,11 @@ public class DateVsAwakeDurationCalculator extends BaseStatsCalculator<LocalDate
 		CalendarEvent previousSleepEvent = null;
 		for (final CalendarEvent event : events) {
 			if(previousSleepEvent != null){
-				final LocalDate independentExact = new LocalDate(event.getEnd());
-				final Duration dependentExact = new Duration(previousSleepEvent.getEnd(), event.getStart());
-				incrementTableBucket(results, independentExact, dependentExact);
+				final LocalDate currSleepEnd = new LocalDate(event.getEnd());
+				final Duration timeBetweenPreviousSleepEndAndCurrSleepStart = new Duration(previousSleepEvent.getEnd(), event.getStart());
+				if(timeBetweenPreviousSleepEndAndCurrSleepStart.isShorterThan(MAX_AWAKE_DURATION)){
+					incrementTableBucket(results, currSleepEnd, timeBetweenPreviousSleepEndAndCurrSleepStart);
+				}
 			}
 			previousSleepEvent = event;
 		}

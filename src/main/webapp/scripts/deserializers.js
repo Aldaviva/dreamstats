@@ -38,7 +38,7 @@ this.deserializers = (function(){
 	 * @returns Human-readable time of day in the user's local timezone, such as "1:45 pm"
 	 */
 	deserializers['LocalTime'] = function(raw){
-		return moment().seconds(raw).format('h:mm a');
+		return moment().hours(0).minutes(0).seconds(raw).format('h:mm a');
 	};
 	
 	/**

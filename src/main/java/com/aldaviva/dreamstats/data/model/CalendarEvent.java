@@ -16,7 +16,6 @@ public class CalendarEvent {
 	private EventName name;
 
 	public CalendarEvent(){
-
 	}
 
 	public CalendarEvent(final Event googleCalendarEvent){

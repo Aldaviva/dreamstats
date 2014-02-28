@@ -1,5 +1,7 @@
 this.deserializers = (function(){
 	
+	var CLIENT_TIMEZONE = -moment().zone();
+	
 	var deserializers = {};
 	
 	deserializers['default'] = function(raw){
@@ -20,17 +22,7 @@ this.deserializers = (function(){
 	 */
 	deserializers['Duration'] = function(raw){
 		var duration = moment.duration(raw*1000);
-		var formatted = duration.asHours() + ' hours';
-//		var totalMinutes = duration.asMinutes();
-//		var hours = Math.floor(totalMinutes/60);
-//		var minutes = totalMinutes % 60;
-//		
-//		var formatted = '';
-//		if(hours){
-//			formatted += hours + "h ";
-//		}
-//		formatted += minutes + "m";
-		return formatted;
+		return duration.asHours() + ' hours';
 	};
 	
 	/**
@@ -38,7 +30,7 @@ this.deserializers = (function(){
 	 * @returns Human-readable time of day in the user's local timezone, such as "1:45 pm"
 	 */
 	deserializers['LocalTime'] = function(raw){
-		return moment().hours(0).minutes(0).seconds(raw).format('h:mm a');
+		return moment().hours(0).minutes(CLIENT_TIMEZONE - SERVER_TIMEZONE).seconds(raw).format('h:mm a');
 	};
 	
 	/**

@@ -1,3 +1,4 @@
+<%@ page import="org.joda.time.DateTimeZone,org.joda.time.DateTime;" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -8,6 +9,9 @@
 	<body>
 		<div id="tables"></div>
 	
+		<script type="text/javascript">
+			var SERVER_TIMEZONE = <%= DateTimeZone.getDefault().getStandardOffset(new DateTime().getMillis())/1000/60 %>;
+		</script>
 		<script src="scripts/lib/jquery-2.0.2.min.js" type="text/javascript"></script>
 		<script src="scripts/lib/my.class.min.js" type="text/javascript"></script>
 		<script src="scripts/lib/lodash.min.js" type="text/javascript"></script>
